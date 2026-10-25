@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Injection Lab</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: #0f3460;
+      color: #fff;
+      padding: 18px 40px;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .topbar h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -.2px;
+    }
+    .topbar span {
+      font-size: 0.82rem;
+      color: #93b4d8;
+    }
+
+    /* ── Main layout ── */
+    .page {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: calc(100vh - 61px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid #e2e8f0;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sidebar-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #94a3b8;
+      margin: 20px 0 8px;
+    }
+    .sidebar-label:first-child { margin-top: 0; }
+
+    .sidebar select {
+      width: 100%;
+      font-size: 0.88rem;
+      padding: 9px 32px 9px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 7px;
+      background: #f8fafc;
+      color: #1e293b;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      margin-bottom: 10px;
+    }
+    .sidebar select:focus {
+      outline: none;
+      border-color: #0f3460;
+      box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+    }
+
+    .run-btn {
+      width: 100%;
+      background: #0f3460;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 0;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: background .15s;
+    }
+    .run-btn:hover  { background: #1a4b8a; }
+    .run-btn:active { opacity: .9; }
+
+    /* sidebar info boxes */
+    .info-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #475569;
+      margin-top: 6px;
+    }
+    .info-box strong { color: #1e293b; display: block; margin-bottom: 4px; font-size: 0.83rem; }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.81rem;
+      color: #475569;
+      padding: 5px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .legend-row:last-child { border-bottom: none; }
+    .dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+    }
+    .dot-green  { background: #22c55e; }
+    .dot-orange { background: #f97316; }
+    .dot-red    { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+
+    /* ── Main content ── */
+    .main {
+      padding: 28px 36px 48px;
+      overflow-y: auto;
+    }
+
+    /* placeholder when no test has been run yet */
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      color: #94a3b8;
+      text-align: center;
+      gap: 10px;
+    }
+    .placeholder .ph-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .placeholder p { font-size: 0.88rem; max-width: 280px; line-height: 1.5; }
+
+    /* section headings */
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #94a3b8;
+      margin: 0 0 10px;
+    }
+
+    /* ── Result status bar ── */
+    .status-bar {
+      border-radius: 9px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      border-left: 5px solid;
+    }
+    .status-bar .sb-label { font-weight: 700; font-size: 1rem; }
+    .status-bar .sb-sub   { font-size: 0.8rem; margin-top: 1px; opacity: .75; }
+
+    .theme-pass    { background: #f0fdf4; border-color: #22c55e; color: #14532d; }
+    .theme-blocked { background: #fff7ed; border-color: #f97316; color: #7c2d12; }
+    .theme-timeout { background: #fefce8; border-color: #eab308; color: #713f12; }
+    .theme-error   { background: #fef2f2; border-color: #ef4444; color: #7f1d1d; }
+
+    /* status dot inside bar */
+    .status-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      border: 1px solid #e8ecf1;
+    }
+
+    /* kv rows */
+    .kv { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+    .kv-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .6px; color: #94a3b8; padding-top: 3px; min-width: 110px;
+    }
+    .kv-value { font-size: 0.88rem; color: #1e293b; word-break: break-all; }
+
+    code {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.82rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #0f3460;
+    }
+    hr.div { border: none; border-top: 1px solid #f1f5f9; margin: 10px 0; }
+
+    /* terminal */
+    .terminal {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      padding: 14px 16px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .terminal .prompt { color: #58a6ff; user-select: none; }
+
+    /* callouts */
+    .callout {
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      margin-top: 14px;
+    }
+    .callout-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    .callout-warn {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #7c2d12;
+    }
+    .callout-warn .callout-title { color: #c2410c; }
+    .callout-warn code { background: #fee2e2; border-color: #fca5a5; color: #b91c1c; }
+
+    .callout-info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+    }
+    .callout-info .callout-title { color: #1d4ed8; }
+
+    /* ── Two-column grid for findings ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* stat rows inside findings */
+    .stat-item {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.83rem; padding: 6px 0; border-bottom: 1px solid #f1f5f9;
+    }
+    .stat-item:last-child { border-bottom: none; }
+    .pill {
+      font-size: 0.75rem; font-weight: 700;
+      padding: 2px 9px; border-radius: 20px;
+    }
+    .pill-green  { background: #dcfce7; color: #14532d; }
+    .pill-orange { background: #ffedd5; color: #7c2d12; }
+    .pill-grey   { background: #f1f5f9; color: #475569; }
+
+    /* remediation list */
+    .remed-list { list-style: none; padding: 0; }
+    .remed-list li {
+      font-size: 0.83rem; padding: 6px 0 6px 18px;
+      position: relative; border-bottom: 1px solid #f0fdf4; color: #14532d;
+      line-height: 1.45;
+    }
+    .remed-list li:last-child { border-bottom: none; }
+    .remed-list li::before { content: "-"; position: absolute; left: 4px; color: #22c55e; font-weight: 700; }
+
+    .remed-list.warn li { color: #7c2d12; border-bottom-color: #fff7ed; }
+    .remed-list.warn li::before { color: #f97316; }
+
+    /* ── Code comparison tabs ── */
+    .tab-bar {
+      display: flex;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 0;
+    }
+    .tab-btn {
+      padding: 8px 16px;
+      font-size: 0.84rem; font-weight: 600;
+      border: none; background: transparent; cursor: pointer;
+      color: #64748b; border-bottom: 2px solid transparent; margin-bottom: -2px;
+      transition: color .15s, border-color .15s;
+    }
+    .tab-btn:hover { color: #0f3460; }
+    .tab-btn.active { color: #0f3460; border-bottom-color: #0f3460; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    .code-bar {
+      font-size: 0.69rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .5px; padding: 5px 14px;
+    }
+    .code-bar-red   { background: #450a0a; color: #fca5a5; border-radius: 0; }
+    .code-bar-green { background: #052e16; color: #86efac; border-radius: 0; }
+
+    pre.code-block {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.82rem; line-height: 1.7;
+      padding: 14px 16px;
+      white-space: pre-wrap; overflow-x: auto;
+      margin: 0; border-radius: 0 0 8px 8px;
+    }
+    pre.code-unsafe { background: #1a0000; color: #fca5a5; }
+    pre.code-safe   { background: #001a0a; color: #86efac; }
+
+    /* ── Reference cards at bottom ── */
+    .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 700px) { .ref-grid { grid-template-columns: 1fr; } }
+
+    .ref-card {
+      border-radius: 8px; padding: 14px 16px;
+      font-size: 0.83rem; line-height: 1.5;
+      border: 1px solid transparent;
+    }
+    .ref-card strong { display: block; font-size: 0.86rem; margin-bottom: 5px; }
+    .ref-safe   { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .ref-risk   { background: #fff7ed; border-color: #fed7aa; color: #7c2d12; }
+    .ref-fix    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      padding: 18px 0 0;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <h1>Command Injection Vulnerability Assessment</h1>
+  <span>Local security lab &mdash; Windows</span>
+</div>
+
+<!-- Two-column page layout -->
+<div class="page">
+
+  <!-- ── Sidebar: test picker ── -->
+  <aside class="sidebar">
+    <form method="post">
+
+      <div class="sidebar-label">Select a test</div>
+      <select name="case_id" id="case_id">
+        <optgroup label="Safe diagnostic commands">
+          {% for case in cases %}{% if not case.id.startswith('inject') %}
+            <option value="{{ case.id }}"{% if case.id == selected %} selected{% endif %}>{{ case.label }}</option>
+          {% endif %}{% endfor %}
+        </optgroup>
+        <optgroup label="Injection-pattern demos">
+          {% for case in cases %}{% if case.id.startswith('inject') %}
+            <option value="{{ case.id }}"{% if case.id == selected %} selected{% endif %}>{{ case.label }}</option>
+          {% endif %}{% endfor %}
+        </optgroup>
+      </select>
+      <button class="run-btn" type="submit">Run Test</button>
+
+    </form>
+
+    <div class="sidebar-label">Status key</div>
+    <div class="info-box" style="padding: 10px 12px;">
+      <div class="legend-row"><span class="dot dot-green"></span> PASS &mdash; command ran successfully</div>
+      <div class="legend-row"><span class="dot dot-orange"></span> BLOCKED &mdash; injection or bad input caught</div>
+      <div class="legend-row"><span class="dot dot-red"></span> ERROR &mdash; tool not found or failed</div>
+      <div class="legend-row"><span class="dot dot-yellow"></span> TIMEOUT &mdash; command took too long</div>
+    </div>
+
+    <div class="sidebar-label">About this lab</div>
+    <div class="info-box">
+      <strong>What it does</strong>
+      Pick a test above and run it. Safe tests execute real diagnostic commands on your machine.
+      Injection demos show you what a bad actor might try — without actually running the harmful part.
+    </div>
+    <div class="info-box" style="margin-top:8px;">
+      <strong>What you learn</strong>
+      Why concatenating user input into a shell command is dangerous, and how passing arguments
+      separately closes that door entirely.
+    </div>
+
+  </aside>
+
+  <!-- ── Main area ── -->
+  <main class="main">
+
+    {% if not result %}
+    <!-- Placeholder before any test is run -->
+    <div class="placeholder">
+      <div class="ph-icon">&#9654;</div>
+      <p>Select a test case from the left panel and click <strong>Run Test</strong> to see results here.</p>
+    </div>
+    {% endif %}
+
+    {% if result %}
+
+    <!-- Section 1: Status -->
+    <div class="status-bar {{ theme }}" style="margin-bottom:20px;">
+      <div>
+        <div class="sb-label">{{ result.status }}</div>
+        <div class="sb-sub">Test completed &mdash; see details below</div>
+      </div>
+    </div>
+
+    <!-- Section 2: Command output -->
+    <p class="section-title">Command &amp; Output</p>
+    <div class="card">
+      <div class="kv">
+        <span class="kv-label">Command</span>
+        <span class="kv-value"><code>{{ result.command }}</code></span>
+      </div>
+      <hr class="div">
+
+      {% if result.unsafe_example %}
+      <div class="callout callout-warn">
+        <div class="callout-title">What a vulnerable app would have run &mdash; not executed here</div>
+        <code>{{ result.unsafe_example }}</code>
+        <p style="margin-top:8px;font-size:0.83rem;">
+          An app that builds its command with string concatenation —
+          <code>os.system("ping " + user_input)</code> — would pass this entire string to the
+          Windows shell. Characters like <code>;</code>, <code>&amp;&amp;</code>, and <code>|</code>
+          tell the shell to start a second command. That second command runs with the same
+          permissions as the web application. This lab catches the pattern and stops before
+          anything is executed.
+        </p>
+      </div>
+      {% endif %}
+
+      <div style="margin-top:14px;">
+        <div class="kv-label" style="margin-bottom:6px;">Output</div>
+        <div class="terminal"><span class="prompt">C:\&gt; </span>{{ result.output }}</div>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:14px;">
+        <div class="callout-title">Security note</div>
+        {{ result.explanation }}
+      </div>
+    </div>
+
+    <!-- Section 3: Code comparison -->
+    <p class="section-title" style="margin-top:8px;">Code Comparison &mdash; Unsafe vs. Secure</p>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div class="tab-bar" style="padding:0 16px;background:#fafafa;border-bottom:2px solid #e2e8f0;">
+        <button class="tab-btn active" onclick="switchTab(event,'tab-unsafe')">Vulnerable pattern</button>
+        <button class="tab-btn"        onclick="switchTab(event,'tab-safe')">Secure pattern</button>
+      </div>
+      <div id="tab-unsafe" class="tab-pane active">
+        <div class="code-bar code-bar-red">Vulnerable &mdash; do not use this</div>
+        <pre class="code-block code-unsafe">{{ result.snippets.unsafe }}</pre>
+      </div>
+      <div id="tab-safe" class="tab-pane">
+        <div class="code-bar code-bar-green">Secure &mdash; recommended</div>
+        <pre class="code-block code-safe">{{ result.snippets.safe }}</pre>
+      </div>
+    </div>
+
+    <!-- Section 4: Findings & remediation -->
+    <p class="section-title" style="margin-top:8px;">Assessment Findings &amp; Remediation</p>
+    <div class="two-col">
+
+      <div class="card">
+        <p class="section-title" style="margin-bottom:12px;">Test Summary</p>
+        <div class="stat-item">
+          <span>Result status</span>
+          <span class="pill {% if 'PASS' in result.status or 'RAN' in result.status %}pill-green{% elif 'BLOCKED' in result.status %}pill-orange{% else %}pill-grey{% endif %}">
+            {{ result.status }}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span>Command executed</span>
+          <span class="pill {% if result.command != 'not executed' %}pill-green{% else %}pill-orange{% endif %}">
+            {% if result.command != 'not executed' %}Yes{% else %}No{% endif %}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span>Injection detected</span>
+          <span class="pill {% if result.unsafe_example %}pill-orange{% else %}pill-green{% endif %}">
+            {% if result.unsafe_example %}Yes{% else %}No{% endif %}
+          </span>
+        </div>
+        <div class="stat-item">
+          <span>Shell invoked</span>
+          <span class="pill pill-green">No</span>
+        </div>
+        <div class="stat-item">
+          <span>Timeout enforced</span>
+          <span class="pill pill-green">Yes &mdash; 6 s</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="section-title" style="margin-bottom:12px;">Remediation Recommendations</p>
+        <ul class="remed-list {% if result.unsafe_example %}warn{% endif %}">
+          {% for item in result.remediation %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    </div>
+
+    {% endif %}
+
+    <!-- Reference guide (always visible) -->
+    <p class="section-title" style="margin-top:{% if result %}8{% else %}0{% endif %}px;">Reference</p>
+    <div class="ref-grid">
+      <div class="ref-card ref-safe">
+        <strong>Safe commands</strong>
+        The input is validated against a known-good list before anything runs.
+        Only approved tools are called, and the result is exactly what you see in the output box.
+      </div>
+      <div class="ref-card ref-risk">
+        <strong>Injection demos</strong>
+        Inputs containing <code>;</code>, <code>&amp;&amp;</code>, or <code>|</code>
+        are caught by the validator. The risky part is shown for educational purposes — nothing is executed.
+      </div>
+      <div class="ref-card ref-fix">
+        <strong>How to prevent it</strong>
+        Validate input first. Build the command as a list of arguments, not a single string.
+        Call the process directly — never through a shell — and always enforce a timeout.
+      </div>
+    </div>
+
+    <div class="footer">
+      Running locally &mdash; for learning purposes only &mdash; no data leaves your machine
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function switchTab(evt, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+    evt.currentTarget.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+</script>
+</body>
+</html>
