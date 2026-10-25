@@ -1,400 +1,411 @@
 # COMMAND INJECTION VULNERABILITY ASSESSMENT
 
 **ETHICAL HACKING - PROJECT REPORT**  
-*Submitted in partial fulfillment of the requirements for the award of the degree of*  
-**BACHELOR OF ENGINEERING IN COMPUTER SCIENCE AND ENGINEERING (CYBER SECURITY)**  
-**ANNA UNIVERSITY, CHENNAI**
+SUBMITTED IN PARTIAL FULFILLMENT OF THE REQUIREMENTS FOR THE AWARD OF THE DEGREE OF  
+**BACHELOR OF ENGINEERING IN COMPUTER SCIENCE AND ENGINEERING (CYBERSECURITY)**  
+**OF THE ANNA UNIVERSITY**
+
+**OCT/NOV 2026**
 
 ---
 
 ### PROJECT WORK
-**Academic Year: 2026–2027**  
-**Department of Computer Science and Engineering (Cyber Security)**  
+**BATCH: 2024 – 2028**
+
+**Submitted by:**  
+Kavin Krishna - *(Register Number)*
+
+**Under the Guidance of:**  
+Dr. A. Sarfaraz Ahmed, Ph.D.  
+Assistant Professor CSE
+
+<br>
+
 **Sri Eshwar College of Engineering**  
-*(An Autonomous Institution, Approved by AICTE, Affiliated to Anna University, Chennai)*  
-*Kinathukadavu (Tk), Coimbatore – 641 202, Tamil Nadu*
+*(An Autonomous Institution)*  
+Kinathukadavu (Tk), Coimbatore – 641 202, Tamil Nadu  
+Approved by AICTE, New Delhi and Affiliated to Anna University, Chennai  
+Accredited by NAAC with 'A' Grade | NBA | NIRF
 
 ---
 
 ## BONAFIDE CERTIFICATE
 
-Certified that this Report titled **"Command Injection Vulnerability Assessment"** is the bonafide work of:
+Certified that this Report titled **“COMMAND INJECTION VULNERABILITY ASSESSMENT”** is the bonafide work of
 
-| Student Name | Register Number |
-| :--- | :--- |
-| **Kavin Krishna** | *(Register Number)* |
+**Kavin Krishna** &nbsp;&nbsp;&nbsp;&nbsp; *(Register Number)*
 
-who carried out the project work under the supervision of the faculty coordinator.
-
-<br><br>
-
-```
------------------------------------------               -----------------------------------------
-               SIGNATURE                                               SIGNATURE
-Dr. S. Sampath Kumar, M.Tech., Ph.D.,                   Supervisor / Faculty Guide,
-Professor and Head of the Department,                   Department of Computer Science and Engineering,
-Department of CSE (Cyber Security),                     Sri Eshwar College of Engineering,
-Sri Eshwar College of Engineering,                      Coimbatore – 641 202.
-Coimbatore – 641 202.
-```
-
-<br>
-
-Submitted for the Autonomous Semester End Ethical Hacking Essentials Project Viva-Voce held on `..........................`
+who carried out the project work under the supervision of Dr. A. Sarfaraz Ahmed.
 
 <br>
 
 ```
-_________________________                               _________________________
-   INTERNAL EXAMINER                                       EXTERNAL EXAMINER
+SIGNATURE                                               SIGNATURE
+Dr. S. Sampath Kumar, M.Tech., PhD,                     Dr. A. Sarfaraz Ahmed., Ph.D.
+ASSOCIATE PROFESSOR &                                   SUPERVISOR,
+HEAD OF THE DEPARTMENT,                                 ASSISTANT PROFESSOR,
+Department of Computer Science and                      Department of Computer Science and 
+Engineering (Cybersecurity),                            Engineering,
+Sri Eshwar College of Engineering,                      Sri Eshwar College of Engineering, 
+Coimbatore – 641 202.                                   Coimbatore – 641 202.
 ```
+
+<br>
+
+Submitted for the Autonomous Semester End Ethical Hacking Essentials Project Viva-Voce held on ……………………..
+
+<br>
+
+```
+INTERNAL EXAMINER                                       EXTERNAL EXAMINER
+```
+
+---
+
+## INSTITUTIONAL VISION, MISSION & QUALITY POLICY
+
+### QUALITY POLICY
+To establish a system of Quality Enhancement, which would on a continuous basis evaluate and enhance the quality of teaching – learning, research and extension activities of the institution, leading to improvements in all processes, enabling the institution to attain excellence.
+
+### INSTITUTE VISION
+To be recognized as a premier institution, grooming students into globally acknowledged engineering professionals.
+
+### INSTITUTE MISSION
+- Providing outcome and value-based engineering education
+- Nurturing research and entrepreneurial culture
+- Enabling students to be industry ready and fulfill their career aspirations
+- Grooming students through behavioral and leadership training programs
+- Making students socially responsible
+
+### DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING (CYBERSECURITY)
+
+#### DEPARTMENT VISION
+To produce globally competitive cybersecurity professionals capable of addressing evolving cyber threats through innovation, research, and ethical practices.
+
+#### DEPARTMENT MISSION
+- Establishing a world-class academic environment with cutting-edge cybersecurity infrastructure and industry-driven faculty expertise.
+- Encouraging research and innovation in cybersecurity, fostering lifelong learning among students and faculty.
+- Developing leadership and entrepreneurial skills to drive cybersecurity advancements.
+- Creating opportunities for students to evolve as ethical cybersecurity professionals with a strong societal impact.
+
+### PROGRAM EDUCATIONAL OBJECTIVES (PEOs)
+- **PEO1**: To prepare graduates for careers in cybersecurity, ensuring they can secure digital ecosystems effectively.
+- **PEO2**: To equip students with the ability to pursue higher studies, research, entrepreneurship, and leadership roles in cybersecurity.
+- **PEO3**: To enable students to develop innovative solutions for real-world cybersecurity challenges.
+
+---
+
+## PROGRAM OUTCOMES & PROGRAM SPECIFIC OUTCOMES
+
+### PROGRAM OUTCOMES (POs)
+- **PO1: Engineering Knowledge**: Apply knowledge of mathematics, natural science, computing, engineering fundamentals and an engineering specialization to solve complex engineering problems.
+- **PO2: Problem Analysis**: Identify, formulate, review research literature and analyze complex engineering problems reaching substantiated conclusions.
+- **PO3: Design/Development of Solutions**: Design creative solutions for complex engineering problems and design systems/components/processes to meet identified security needs.
+- **PO4: Conduct Investigations of Complex Problems**: Conduct investigations using research-based knowledge including design of experiments, analysis, and interpretation of data.
+- **PO5: Engineering Tool Usage**: Create, select and apply appropriate techniques, resources, and modern IT tools recognizing their limitations.
+- **PO6: The Engineer and The World**: Analyze and evaluate societal, environmental, safety, legal, and cultural aspects relevant to professional engineering practice.
+- **PO7: Ethics**: Apply ethical principles and commit to professional ethics, human values, and adhere to national and international cyber laws.
+- **PO8: Individual and Collaborative Teamwork**: Function effectively as an individual, and as a member or leader in diverse and multidisciplinary teams.
+- **PO9: Communication**: Communicate effectively and inclusively within the engineering community, writing effective reports and technical design documentation.
+- **PO10: Project Management and Finance**: Apply knowledge of engineering management principles and economic decision-making to one's own work.
+- **PO11: Life-Long Learning**: Recognize the need for independent and life-long learning in the context of emerging technological advancements.
+
+### PROGRAM SPECIFIC OUTCOMES (PSOs)
+- **PSO1**: Demonstrate expertise in open-source cybersecurity tools and vulnerability assessment frameworks.
+- **PSO2**: Develop innovative security solutions by integrating defensive technologies.
+- **PSO3**: Implement Secure Software Development Lifecycle (SSDLC) principles for robust cybersecurity solutions.
+
+---
+
+## DECLARATION
+
+I, **Kavin Krishna**, *(Register Number)*, declare that the project entitled **“COMMAND INJECTION VULNERABILITY ASSESSMENT”**, submitted in partial fulfilment to Anna University as the project work of Bachelor of Engineering CSE (CyberSecurity) Degree, is a record of original work done by me under the supervision and guidance of **Dr. A. Sarfaraz Ahmed, Ph.D., Assistant Professor**, Department of Computer Science and Engineering, Sri Eshwar College of Engineering, Coimbatore.
+
+**Place:** Coimbatore  
+**Date:**  
+
+<br>
+**Kavin Krishna**
+
+**Project Guided by:**  
+[Dr. A. Sarfaraz Ahmed, Ph.D.]
+
+---
+
+## ACKNOWLEDGEMENT
+
+The success of a work depends on a team and cooperation. We take this opportunity to express our gratitude and thanks to everyone who helped us in our project. We would like to thank the management for the constant support provided by them to complete this project.
+
+It is indeed our great honor bounded duty to thank our beloved Chairman **Mr. R. Mohanram**, for his academic interest towards the students. We are indebted to our Director **Mr. R. Rajaram**, for motivating and providing us with all facilities.
+
+We wish to express our sincere regards and deep sense of gratitude to **Dr. Sudha Mohanram M.E, Ph.D.**, Principal, for the excellent facilities and encouragement provided during the course of the study and project.
+
+We are indebted to **Dr. S. Sampath Kumar, M.Tech., PhD.**, Associate Professor & Head of Computer Science and Engineering (CyberSecurity) Department for having permitted us to carry out this project and giving the complete freedom to utilize the resources of the department.
+
+We also extend our heartfelt thanks to our Project Guide **Dr. A. Sarfaraz Ahmed, Ph.D.**, Assistant Professor, Department of Computer Science and Engineering for providing us support and guidance which really helped us.
+
+We solemnly express our thanks to all the teaching and non-teaching staff of the CSE Department, family and friends for their valuable support which inspired us to work on this project.
 
 ---
 
 ## TABLE OF CONTENTS
 
-- **CHAPTER 1: INTRODUCTION & OBJECTIVES**
-  - 1.1 Introduction
-  - 1.2 Project Objectives
-- **CHAPTER 2: ETHICAL GUIDELINES & LAB SETUP**
-  - 2.1 Project Guidelines
-  - 2.2 Lab Setup & System Configuration
-- **CHAPTER 3: SYSTEM ARCHITECTURE & IMPLEMENTATION**
-  - 3.1 Problem Statement
-  - 3.2 Technical Background
-  - 3.3 Implementation Objectives
-  - 3.4 Tools and Technologies Required
-  - 3.5 Implementation Tasks and Test Results
-    - Task 1 — Application Environment & Server Configuration
-    - Task 2 — Diagnostic Command Selection (Figure 1: Application Interface)
-    - Task 3 — Harmless Command Execution & Output (Figure 2: Normal Diagnostic Test)
-    - Task 4 — Input Validation and Allow-Listing (Figure 3: Input Validation)
-    - Task 5 — Suspicious Input & Injection Detection (Figure 4: Command Injection Detection)
-    - Task 6 — Defensive Secure Implementation (Figure 5: Secure Implementation)
-    - Task 7 — Assessment Findings & Remediation (Figure 6: Final Assessment Results)
-  - 3.6 Expected Outputs
-  - 3.7 Mapping to Syllabus Units
-- **CHAPTER 4: EVIDENCE, REPOSITORY & CONCLUSION**
-  - 4.1 Screenshot Guidelines and Verification
-  - 4.2 GitHub Repository Structure
-  - 4.3 Ethical Disclaimer and Conclusion
+```
+TABLE OF CONTENTS .................................................................... 3
+CHAPTER 1 ............................................................................ 4
+  1.1 Introduction .................................................................... 4
+  1.2 Project Objectives ............................................................. 5
+CHAPTER 2 ............................................................................ 6
+  2.1 Project Guidelines ............................................................. 6
+  2.2 Lab Setup ...................................................................... 7
+CHAPTER 3 ............................................................................ 9
+  3.1 Problem Statement .............................................................. 9
+  3.2 Background ..................................................................... 9
+      Operating System Command Execution ............................................ 9
+      Shell Metacharacters and Chaining Operators ................................... 9
+      Subprocess Process Invocation Mechanics ...................................... 10
+      Allow-List Input Validation .................................................. 10
+      Automated Threat Remediation Frameworks ....................................... 10
+  3.3 Objectives .................................................................... 11
+  3.4 Tools Required ................................................................ 11
+  3.5 Implementation Tasks .......................................................... 12
+      Task 1 — Environment & Application Server Configuration ....................... 12
+      Task 2 — Predefined Diagnostic Target Selection ............................... 13
+      Task 3 — Harmless Command Execution & Output Capture .......................... 14
+      Task 4 — Dual-Stage Input Validation & Allow-Listing .......................... 15
+      Task 5 — Semicolon (;) Command Separation Detection ........................... 16
+      Task 6 — Logical AND (&&) Chaining Metacharacter Mitigation ................... 17
+      Task 7 — Pipe (|) Redirection Metacharacter Analysis .......................... 18
+      Task 8 — Secure Parameterized Implementation (shell=False & Timeout) .......... 19
+      Task 9 — Assessment Findings and Remediation Reporting ........................ 20
+  3.6 Expected Outputs .............................................................. 21
+  3.7 Mapping to Syllabus Units ..................................................... 22
+CHAPTER 4 ........................................................................... 23
+  4.1 Screenshot Guidelines ......................................................... 23
+  4.2 GitHub Repository Structure ................................................... 24
+  4.3 Ethical Disclaimer and Conclusion ............................................. 25
+ANNEXURE — SDG MAPPING & EXPENDITURE STATEMENT ...................................... 26
+```
 
 ---
 
 ## CHAPTER 1
 
 ### 1.1 Introduction
-In the domain of web application security and ethical hacking, Command Injection (CWE-78) consistently ranks among the most severe vulnerability classes. It arises when an application constructs operating system commands using untrusted, user-supplied data without adequate sanitization, validation, or escaping, and subsequently passes that concatenated string to a system shell interpreter (such as Windows `cmd.exe`, PowerShell, or Unix `/bin/sh`). 
+In ethical hacking and application security, ensuring software resilience against arbitrary code execution is paramount. Web applications frequently interact with the underlying operating system to perform essential tasks such as network health checks, DNS queries, and service verification. However, when user-supplied input is directly concatenated into an operating system command string and passed to a system command interpreter (`cmd.exe`, PowerShell, or Bash), a critical vulnerability known as **Command Injection (CWE-78)** is introduced.
 
-When an operating system shell processes input containing metacharacters (e.g., `;`, `&&`, `|`, `||`, `` ` ``, `$()`), it interprets them as command delimiters or control operators. Consequently, an attacker can append arbitrary secondary commands that execute under the privileges of the web application server. This can lead to complete server takeover, unauthorized system enumeration, data exfiltration, lateral network pivoting, and denial of service.
+Command injection allows an adversary to append unauthorized operating system commands using shell metacharacters such as semicolons (`;`), logical operators (`&&`, `||`), or pipes (`|`). Because the command interpreter runs under the security context of the parent application server, an injected command can compromise the server, read or delete confidential files, modify configuration settings, and pivot across the internal network.
 
-Traditional diagnostic web utilities—such as router administrative panels, network monitoring consoles, and troubleshooting interfaces—frequently expose diagnostic functions like `ping`, `nslookup`, and `traceroute`. Historically, junior developers implemented these features by directly interpolating inputs into commands using functions like `os.system()` or `subprocess.Popen(..., shell=True)`. While functional under normal circumstances, such designs fail catastrophically when presented with adversarial inputs.
+Assessing and eliminating command injection requires a multi-layered defense. Traditional blacklisting approaches often fail because attackers can bypass naive keyword filters using alternative encodings, whitespace variations, and string manipulations. A robust security implementation requires:
+1. Strict input validation based on allow-lists (whitelisting).
+2. Parameterized command execution using explicit argument arrays where `shell=False` is enforced.
+3. Execution timeouts to prevent denial-of-service conditions.
 
-This project, titled **Command Injection Vulnerability Assessment**, delivers a dedicated, lightweight, and beginner-friendly local vulnerability laboratory implemented in Python Flask. The platform demonstrates:
-1. The mechanics of operating system command execution.
-2. The exact syntax and behavior of command chaining operators.
-3. Safe detection and simulation of injection risks without executing harmful commands.
-4. Robust defensive remediation using strict allow-listing, parameterized array execution with `subprocess.run(shell=False)`, and execution timeouts.
-
-All demonstrations are strictly bound to `127.0.0.1` on Windows, ensuring a completely safe, controlled, and educational testing environment.
+Performing these vulnerability assessments manually across varied input vectors can be prone to human error. This project addresses this challenge by developing a lightweight, beginner-friendly web application—**Command Injection Vulnerability Assessment**—built using Python Flask. The application demonstrates real diagnostic executions (`ping`, `hostname`, `nslookup`), safely detects and intercepts injection attempts without executing harmful secondary payloads, compares vulnerable anti-patterns with secure alternatives, and generates real-time assessment summaries and remediation recommendations on Windows.
 
 ### 1.2 Project Objectives
-The primary objectives of this project are:
-1. **Develop a Lightweight Diagnostic Interface**: Create an intuitive, web-based diagnostic console using Python Flask, HTML5, and CSS that runs locally on Windows.
-2. **Execute Controlled, Harmless Diagnostics**: Provide safe diagnostic utilities (`ping`, `hostname`, `nslookup`) that execute against validated local targets and return real command output.
-3. **Simulate Command Injection Risks Safely**: Demonstrate command injection attack patterns (semicolon, AND chaining, piping) using pattern detection without ever executing malicious commands.
-4. **Implement Defensive Secure Coding Controls**: Enforce defensive mechanisms including regex-based allow-lists, parameterized argument arrays, `shell=False`, and process timeouts.
-5. **Present Educational Comparative Analysis**: Compare vulnerable string-concatenation anti-patterns with secure implementations side-by-side.
-6. **Provide Actionable Vulnerability Assessment Findings**: Automatically generate structured test summaries, detected risks, pass/fail statuses, and industry-standard remediation guidance.
+1. To develop a modular Python Flask web application restricted to localhost (`127.0.0.1:5001`) on Windows.
+2. To implement harmless network diagnostic operations (`ping`, `hostname`, `nslookup`) that return actual, real-time command output.
+3. To construct a dual-stage input validation engine utilizing regular expressions for shell metacharacter detection and strict hostname allow-listing.
+4. To safely demonstrate the risk of command injection using controlled test cases (semicolon, AND chaining, pipe redirection) without executing injected payloads.
+5. To implement secure command execution using Python’s `subprocess.run()` with `shell=False`, argument list passing, and execution timeouts.
+6. To provide an educational side-by-side code comparison between insecure string concatenation and secure parameterized implementations.
+7. To generate real-time assessment summaries detailing execution status, injection risk detection, and prioritized remediation recommendations.
 
 ---
 
 ## CHAPTER 2
 
 ### 2.1 Project Guidelines
-This laboratory assessment has been designed and implemented in strict compliance with ethical hacking standards, academic integrity guidelines, and the principle of least privilege. The following ethical principles governed the development and execution of the lab:
+This project has been designed and executed in strict accordance with ethical hacking principles and academic guidelines:
+- **Authorized Testing Only**: The application operates solely on localhost (`127.0.0.1`) on the student’s workstation. No external or unauthorized network systems are targeted.
+- **Simulated Safe Detection**: When injection test cases are selected, the security engine detects suspicious characters, halts command execution, and displays educational warnings. Injected commands are **never executed**.
+- **No Arbitrary Input Execution**: Free-text command entry is restricted. Interactions are handled through curated predefined test cases to prevent unintended system actions.
+- **Resource Protection**: Subprocess execution is strictly capped at a 6-second timeout to mitigate denial-of-service risks.
 
-- **Authorized and Localhost Testing Only**: All network diagnostics and executions are restricted strictly to loopback addresses (`127.0.0.1`, `localhost`) and approved public targets (`example.com`). The application binds exclusively to the local loopback interface and is not exposed to external networks.
-- **Simulation Without Harmful Execution**: When a test case simulating command injection is evaluated (e.g., `127.0.0.1 && whoami`), the application identifies the metacharacters, explains the exploit mechanism, and intentionally halts execution. Secondary injected commands are **never** executed.
-- **No Arbitrary Command Invocation**: Free-form text fields that permit arbitrary command entry are disallowed. All interactions are driven by curated, predefined test cases, ensuring that unintended OS commands cannot be triggered.
-- **Controlled Process Execution**: All active operating system commands are invoked through strict timeouts (6 seconds) to prevent Denial of Service (DoS) conditions or hanging background threads.
-- **Responsible Information Presentation**: The web interface avoids security-through-obscurity; it transparently displays the exact command invoked, the execution parameters, and defensive recommendations.
-
-### 2.2 Lab Setup & System Configuration
-The lab environment was configured on a local Windows host utilizing a standard Python virtual environment.
+### 2.2 Lab Setup
+The lab was developed and verified on a single Windows 11 host using Python Flask and native diagnostic binaries.
 
 #### Table 2.1: Lab Environment Configuration
 | Parameter | Value |
 | :--- | :--- |
-| **Host Operating System** | Windows 11 (64-bit) |
-| **Python Version** | Python 3.13.x / Python 3.10+ |
-| **Web Framework** | Flask 3.0.3 |
-| **Interface Binding** | `127.0.0.1:5001` (Localhost only) |
-| **Execution Shell** | None (`shell=False`, direct process invocation) |
-| **Process Management Module**| Python `subprocess` standard library |
-| **Pattern Detection Engine** | Python `re` (Regular Expressions) |
-| **Diagnostic Utilities** | Windows native `ping.exe`, `hostname.exe`, `nslookup.exe` |
+| Operating System | Windows 11 (64-bit) |
+| Python Version | Python 3.13.x / Python 3.10+ |
+| Web Framework | Flask 3.0.3 |
+| Local Binding | `127.0.0.1:5001` (Localhost) |
+| Execution Mode | Native Process Execution (`shell=False`) |
+| Diagnostic Utilities | `ping.exe`, `hostname.exe`, `nslookup.exe` |
+| Project Directory | `d:\Extrass\ETH_Project\` |
 
 #### Table 2.2: Software and Tools Used
-| Software / Module | Purpose in the Project |
+| Software / Tool | Purpose in the Project |
 | :--- | :--- |
-| **Python Flask** | Provides the backend web server, request routing, and Jinja2 template rendering. |
-| **Python `subprocess`** | Executes approved system diagnostic binaries securely using argument lists with `shell=False`. |
-| **Python `re`** | Implements the pattern detection engine for identifying shell metacharacters and validating hostnames. |
-| **Jinja2 / HTML5 / CSS3** | Delivers a clean, responsive, two-column interface featuring terminal views, tabbed code comparisons, and status cards. |
-| **PowerShell / Git** | Used for environment setup, process management, version control, and GitHub synchronization. |
+| **Python Flask** | Provides web backend, routing, and Jinja2 rendering. |
+| **Python `subprocess`** | Manages direct, parameterized process invocation with timeout controls. |
+| **Python `re`** | Implements regex patterns for metacharacter filtering and allow-listing. |
+| **HTML5 / CSS3 / JS** | Renders the two-column dashboard, terminal output, and interactive comparison tabs. |
+| **Git / GitHub** | Provides version control and repository synchronization. |
 
 ---
 
 ## CHAPTER 3
 
 ### 3.1 Problem Statement
-Many web applications need to perform system diagnostics or query system states. Developers often achieve this by invoking operating system shell utilities. However, concatenating raw user input directly into shell execution strings exposes the host system to Remote Command Execution (RCE). 
+Many web applications invoke system-level utilities for network troubleshooting. When developers use insecure string concatenation (e.g., `os.system("ping -n 1 " + user_input)`), adversaries can exploit shell parsing mechanics to execute arbitrary commands. A dedicated platform is needed to safely demonstrate this vulnerability, explain the mechanics of shell metacharacters, and showcase effective defensive programming techniques.
 
-A classic vulnerable implementation resembles:
-```python
-# VULNERABLE SNIPPET
-host = request.form['host']
-os.system("ping -n 1 " + host)
-```
-If an adversary submits `127.0.0.1 && whoami`, the shell treats the input as two distinct commands:
-1. `ping -n 1 127.0.0.1`
-2. `whoami`
+### 3.2 Background
+- **Operating System Command Execution**: Invoking system binaries via shells versus direct process APIs.
+- **Shell Metacharacters and Chaining Operators**: Mechanics of `;`, `&&`, `|`, and how shells interpret them as control directives.
+- **Subprocess Invocation Mechanics**: The critical difference between `shell=True` (string parsing by shell) and `shell=False` (direct kernel process creation via array arguments).
+- **Allow-List Input Validation**: Why regex whitelisting is superior to blacklisting.
+- **Automated Threat Remediation**: Practical steps for neutralizing injection risks.
 
-Both commands execute sequentially, allowing the attacker to discover the web server's service account name. 
-
-There is an acute need for an educational vulnerability assessment platform that clearly illustrates this vulnerability, demonstrates how shell metacharacters operate, and presents the exact secure implementation required to neutralize the threat.
-
-### 3.2 Technical Background
-
-#### The Role of Shell Metacharacters
-Operating system shells parse input strings according to specific grammar rules. Certain characters act as control instructions rather than literal strings:
-- `;` (Command Separator): Executes commands sequentially regardless of success.
-- `&&` (Logical AND): Executes the following command only if the preceding command returns exit code 0.
-- `|` (Pipe): Routes the standard output of the first command as the standard input of the second.
-- `||` (Logical OR): Executes the subsequent command only if the preceding command fails.
-- `` `command` `` or `$(command)` (Command Substitution): Evaluates the enclosed command and replaces it with its output.
-
-#### Process Invocation Mechanics: `shell=True` vs. `shell=False`
-- **When `shell=True` is enabled**: Python passes the command string directly to the shell (`cmd.exe /c` on Windows or `/bin/sh -c` on Linux). The shell tokenizes the string, detects metacharacters, and executes multiple commands.
-- **When `shell=False` is used**: Python invokes the target binary directly via the operating system's native process creation API (e.g., `CreateProcessW` on Windows). The command and its arguments are passed as an explicit array of strings: `['ping', '-n', '1', host]`. Even if `host` contains `;` or `&&`, the OS passes the entire token literally as a single command-line argument to `ping.exe`. The ping utility simply reports an unknown host error; no secondary process is ever spawned.
-
-#### Input Validation Strategies
-- **Blacklisting**: Attempting to block known malicious characters often fails due to bypasses (e.g., whitespace manipulation, alternate delimiters, variable expansion).
-- **Allow-Listing (Whitelisting)**: The definitive defense. The application only permits inputs that match strict, expected patterns (e.g., only alphanumeric characters and valid IPv4 dot-decimal formats).
-
-### 3.3 Implementation Objectives
-1. Provide predefined diagnostic test cases representing both benign commands and common injection vectors.
-2. Intercept and evaluate inputs before process creation.
-3. If an input contains shell operators, log the risk, display the dangerous construction for learning, and halt execution.
-4. If an input is verified safe, execute it using parameterized arguments and capture stdout/stderr.
-5. Display live output inside a formatted terminal interface.
-6. Display a comparative code snippet viewer (Vulnerable vs. Secure) customized to the active diagnostic tool.
-7. Output an assessment finding report with risk classification and actionable remediation steps.
+### 3.3 Objectives
+1. Configure Flask application environment and local binding.
+2. Provide curated diagnostic test selections.
+3. Execute approved commands and capture standard output/error.
+4. Enforce dual-stage input validation.
+5. Intercept and block semicolon, AND, and pipe injection patterns.
+6. Provide side-by-side code comparisons.
+7. Deliver automated findings and remediation reports.
 
 ### 3.4 Tools Required
-The laboratory requires only standard, lightweight tools:
-- **Operating System**: Windows 10/11
-- **Python**: Version 3.10 or higher
-- **Dependencies**: Listed in `requirements.txt`:
-  ```
-  Flask==3.0.3
-  ```
-- **Git**: For version control and repository management.
+- Windows 11 operating system
+- Python 3.10+ with Flask 3.0.3
+- Git version control
 
 ---
 
-### 3.5 Implementation Tasks and Test Results
+### 3.5 Implementation Tasks
 
-#### Task 1 — Application Environment & Server Configuration
-The Flask application is initialized in `app.py`. The server binds exclusively to `127.0.0.1` on port `5001`. Security headers and local execution configurations are established. The execution timeout is configured to 6 seconds (`TIMEOUT_SECONDS = 6`).
-
-#### Task 2 — Diagnostic Command Selection
-The web application provides an intuitive two-column dashboard. The sidebar presents a curated dropdown divided into two distinct groups:
-1. **Safe diagnostic commands** (benign ping, localhost ping, hostname inspection, nslookup).
-2. **Injection-pattern demos** (semicolon chaining, AND chaining, pipe chaining).
-
-A status key explains the color-coded outcome badges (PASS, BLOCKED, ERROR, TIMEOUT).
-
-```
-================================================================================
-FIGURE 1: APPLICATION INTERFACE
-================================================================================
-```
-![Figure 1: Application Interface](screenshots/01_application_interface.png)  
-*Figure 1: Application Interface showing project title, sidebar diagnostic selector, status key, and reference cards.*
+#### Task 1 — Environment & Application Server Configuration
+**What it does**: Initializes the Flask server on `127.0.0.1:5001` with execution timeouts and security settings.  
+**How it is implemented**: Configured in `app.py` with `TIMEOUT_SECONDS = 6` and localhost binding.  
+**Why it is required**: Restricts exposure to the local development environment and protects against infinite loops.  
+**Output produced**: A running Flask server listening locally on port 5001.
 
 ---
 
-#### Task 3 — Harmless Command Execution & Output
-When a user selects a safe diagnostic test (e.g., `Ping localhost (safe)`), the backend executes:
-```python
-['ping', '-n', '1', '-w', '3000', 'localhost']
-```
-The command is invoked via `subprocess.run()` with `shell=False`. The application captures standard output and standard error, returning the actual execution statistics.
+#### Task 2 — Predefined Diagnostic Target Selection
+**What it does**: Provides a user interface with curated safe diagnostics and injection demos.  
+**How it is implemented**: Rendered via `templates/index.html` featuring a sidebar selector and status guide.  
+**Why it is required**: Eliminates arbitrary text entry, preventing unintended command execution.  
+**Output produced**: Clean, professional two-column web dashboard.
 
-```
-================================================================================
-FIGURE 2: NORMAL DIAGNOSTIC TEST
-================================================================================
-```
-![Figure 2: Normal Diagnostic Test](screenshots/02_normal_diagnostic_test.png)  
-*Figure 2: Normal Diagnostic Test showing successful ping execution against localhost with real round-trip times and security notes.*
+[ Insert Image: 01_application_interface.png ]  
+*Figure 1: Application Interface showing diagnostic dropdown, status key, and reference cards.*
 
 ---
 
-#### Task 4 — Input Validation and Allow-Listing
-Input validation is enforced using a dual-stage verification system:
-1. **Pattern Inspection**: The input string is scanned for forbidden shell operators via regex:
-   ```python
-   INJECTION_PATTERN = re.compile(r"[;&|`$()\<\>^\r\n]")
-   ```
-2. **Allow-List Matching**: Safe hostnames and IP addresses are validated against an exact regex:
-   ```python
-   SAFE_HOST_PATTERN = re.compile(r"^(localhost|example\.com|\d{1,3}(?:\.\d{1,3}){3})$")
-   ```
-If an input fails validation or contains unapproved targets, execution is rejected before process instantiation, returning a `BLOCKED (invalid host)` status.
+#### Task 3 — Harmless Command Execution & Output Capture
+**What it does**: Executes approved diagnostic operations (`ping`, `hostname`, `nslookup`) and returns real output.  
+**How it is implemented**: Invoked using `subprocess.run(['ping', '-n', '1', '-w', '3000', 'localhost'], shell=False)`.  
+**Why it is required**: Demonstrates legitimate system diagnostic functionality.  
+**Output produced**: Real terminal output displaying ping statistics and round-trip times.
 
-```
-================================================================================
-FIGURE 3: INPUT VALIDATION
-================================================================================
-```
-![Figure 3: Input Validation](screenshots/03_input_validation.png)  
-*Figure 3: Input Validation implementation in Python showing regex patterns (INJECTION_PATTERN, SAFE_HOST_PATTERN), execution timeout limits, and the is_safe_host() validation function.*
+[ Insert Image: 02_normal_diagnostic_test.png ]  
+*Figure 2: Normal Diagnostic Test showing successful ping execution against localhost.*
 
 ---
 
-#### Task 5 — Suspicious Input & Injection Detection
-When a user selects an injection test case such as `127.0.0.1 | whoami`, the regex engine detects the pipe (`|`) metacharacter. The application halts immediately:
-- The command status transitions to `BLOCKED (injection pattern)`.
-- The actual command field shows `not executed`.
-- The interface displays an educational alert: **"WHAT A VULNERABLE APP WOULD HAVE RUN — NOT EXECUTED HERE"**, exposing the concatenated string `ping -n 1 127.0.0.1 | whoami`.
-- The terminal output explicitly reports: `C:\> Blocked - injected text was never sent to Windows.`
+#### Task 4 — Dual-Stage Input Validation & Allow-Listing
+**What it does**: Validates target inputs against strict regex patterns before any process execution.  
+**How it is implemented**: Implemented via `INJECTION_PATTERN = re.compile(r"[;&|`$()\<\>^\r\n]")` and `SAFE_HOST_PATTERN = re.compile(r"^(localhost|example\.com|\d{1,3}(?:\.\d{1,3}){3})$")`.  
+**Why it is required**: Ensures that only recognized, harmless hostnames can proceed to execution.  
+**Output produced**: Automatic rejection of non-whitelisted or malformed host targets.
 
-```
-================================================================================
-FIGURE 4: COMMAND INJECTION DETECTION
-================================================================================
-```
-![Figure 4: Command Injection Detection](screenshots/04_command_injection_detection.png)  
-*Figure 4: Command Injection Detection displaying blocked metacharacter status, simulated vulnerable string, and safe rejection message.*
+[ Insert Image: 03_input_validation.png ]  
+*Figure 3: Input Validation code showing regex patterns, timeout limits, and allow-list checking.*
 
 ---
 
-#### Task 6 — Defensive Secure Implementation
-To provide direct educational value, the application features a tabbed **Code Comparison** card directly beneath the command output. The student can toggle between:
-- **Vulnerable Pattern**: Demonstrates the dangerous `os.system('ping -n 1 ' + user_input)` pattern.
-- **Secure Pattern**: Demonstrates input allow-listing and parameterized execution using `subprocess.run(['ping', '-n', '1', host], shell=False, timeout=6)`.
-
-The implementation code is clean, readable, and structured as follows in `app.py`:
-```python
-def run_safe_command(cmd):
-    """Execute an approved command with shell=False and a timeout."""
-    completed = subprocess.run(
-        cmd,
-        shell=False,
-        capture_output=True,
-        text=True,
-        timeout=TIMEOUT_SECONDS,
-    )
-    output = (completed.stdout or "") + (completed.stderr or "")
-    return completed.returncode, output.strip() or "(no output)"
-```
-
-```
-================================================================================
-FIGURE 5: SECURE IMPLEMENTATION
-================================================================================
-```
-![Figure 5: Secure Implementation](screenshots/05_secure_implementation.png)  
-*Figure 5: Secure Implementation running in browser, demonstrating injection blocking for 127.0.0.1 && whoami, transparent vulnerability simulation alert, and secure terminal feedback.*
+#### Task 5 — Semicolon (;) Command Separation Detection
+**What it does**: Intercepts input containing semicolons (e.g., `127.0.0.1; whoami`) and halts execution.  
+**How it is implemented**: Detected by `injection_hits()`, returning `BLOCKED (injection pattern)` status.  
+**Why it is required**: Semicolons allow sequential command execution in shells.  
+**Output produced**: Blocked status, risk explanation, and zero secondary command execution.
 
 ---
 
-#### Task 7 — Assessment Findings & Remediation
-Following every execution, the application automatically aggregates and displays:
-1. **Test Summary**:
-   - Result status (`PASS`, `BLOCKED`, `ERROR`, `TIMEOUT`)
-   - Command executed confirmation (`Yes` / `No`)
-   - Injection detection alert (`Yes` / `No`)
-   - Shell invocation verification (`No - shell=False enforced`)
-   - Timeout parameter verification (`Yes - 6s`)
-2. **Remediation Recommendations**:
-   - Enforce strict allow-list validation before calling system binaries.
-   - Build commands as argument arrays, never as concatenated strings.
-   - Always specify `shell=False` when using `subprocess.run`.
-   - Enforce execution timeouts to eliminate process hanging and denial of service.
+#### Task 6 — Logical AND (&&) Chaining Metacharacter Mitigation
+**What it does**: Intercepts logical AND operators (e.g., `127.0.0.1 && whoami`) and demonstrates risk mitigation.  
+**How it is implemented**: The pattern engine flags `&&`, logs the simulated vulnerable string, and refuses execution.  
+**Why it is required**: Demonstrates how command chaining attacks are neutralized before reaching the OS.  
+**Output produced**: Warning callout displaying the vulnerable string with full execution suppression.
 
-```
-================================================================================
-FIGURE 6: FINAL ASSESSMENT RESULTS & REMEDIATION
-================================================================================
-```
-![Figure 6: Final Assessment Results](screenshots/06_assessment_findings.png)  
-*Figure 6: Assessment Findings & Remediation showing test summary attributes, defensive checklist, and tabbed code comparison.*
+[ Insert Image: 05_secure_implementation.png ]  
+*Figure 4: Command Chaining Mitigation showing blocked status for 127.0.0.1 && whoami.*
+
+---
+
+#### Task 7 — Pipe (|) Redirection Metacharacter Analysis
+**What it does**: Detects pipe operators (e.g., `127.0.0.1 | whoami`) used to redirect output streams.  
+**How it is implemented**: Scanned by regex; returns educational callout showing what vulnerable apps would build.  
+**Why it is required**: Pipe operators allow chaining command inputs and outputs together.  
+**Output produced**: Visual warning and educational security analysis.
+
+[ Insert Image: 04_command_injection_detection.png ]  
+*Figure 5: Command Injection Detection showing blocked pipe redirection and simulated command.*
+
+---
+
+#### Task 8 — Secure Parameterized Implementation (shell=False & Timeout)
+**What it does**: Demonstrates direct process invocation using parameter arrays, avoiding shell interpretation.  
+**How it is implemented**: Implemented with `subprocess.run(cmd, shell=False, timeout=TIMEOUT_SECONDS)`.  
+**Why it is required**: Passing arguments as an array ensures that even metacharacters are treated as literal arguments by the executable.  
+**Output produced**: Interactive tabbed code comparison showing vulnerable vs. secure implementations.
+
+---
+
+#### Task 9 — Assessment Findings and Remediation Reporting
+**What it does**: Generates a real-time assessment report summarizing execution metrics and defense guidelines.  
+**How it is implemented**: Aggregates status, command facts, shell invocation checks, and remediation lists.  
+**Why it is required**: Provides actionable, industry-standard remediation guidance for developers.  
+**Output produced**: Two-column findings card with test summary and remediation checklist.
+
+[ Insert Image: 06_assessment_findings.png ]  
+*Figure 6: Assessment Findings & Remediation showing test summary metrics and defense checklist.*
 
 ---
 
 ### 3.6 Expected Outputs
-Execution of the Command Injection Vulnerability Assessment laboratory yields clear, deterministic, and verifiable outputs across all test cases:
-
-#### Table 3.1: Expected Execution Outcomes
-| Test Case Identifier | Input Target | Invoked Command | Expected Status | Behavioral Explanation |
-| :--- | :--- | :--- | :--- | :--- |
-| `ping-localhost` | `localhost` | `ping -n 1 -w 3000 localhost` | **PASS** | Valid target; runs via subprocess; returns real packet statistics. |
-| `show-hostname` | *(empty)* | `hostname` | **PASS** | Approved parameterless command; returns Windows computer name. |
-| `lookup-example` | `example.com` | `nslookup example.com` | **PASS** | Valid domain; queries DNS server; returns resolution records. |
-| `inject-semicolon`| `127.0.0.1; whoami` | *None (Blocked)* | **BLOCKED** | Metacharacter `;` detected; execution aborted; risk explained. |
-| `inject-and` | `127.0.0.1 && whoami`| *None (Blocked)* | **BLOCKED** | Metacharacters `&&` detected; execution aborted; risk explained. |
-| `inject-pipe` | `127.0.0.1 \| whoami`| *None (Blocked)* | **BLOCKED** | Metacharacter `\|` detected; execution aborted; risk explained. |
-
----
+- Safe commands execute and display real terminal output.
+- Injected inputs are detected, blocked, and explained without executing secondary commands.
+- Code comparisons illustrate the exact technical differences between vulnerable and secure coding patterns.
+- Comprehensive remediation checklists are dynamically displayed for every test case.
 
 ### 3.7 Mapping to Syllabus Units
-This project aligns directly with standard university curriculum topics in Ethical Hacking, Secure Coding, and Web Application Security:
-
-#### Table 3.2: Mapping to Syllabus Topics
-| Syllabus Topic | Practical Implementation in Project | Academic Unit |
-| :--- | :--- | :---: |
-| **Web Application Vulnerabilities** | Demonstrates the syntax, causes, and impacts of OS Command Injection (OWASP Top 10 A03:2021 - Injection). | Unit 3 |
-| **Input Validation & Sanitization** | Implements allow-listing via regular expressions and rejection of shell metacharacters. | Unit 2 |
-| **Secure Process Execution** | Implements parameterized process creation using `subprocess.run()` with `shell=False` and strict timeouts. | Unit 4 |
-| **Reconnaissance & Diagnostics** | Utilizes network diagnostic commands (`ping`, `nslookup`, `hostname`) in a controlled security context. | Unit 1 |
-| **Vulnerability Assessment & Reporting** | Generates assessment summaries, risk classifications, and defensive remediation checklists. | Unit 5 |
+- **Unit 1**: Ethical Hacking Basics & Network Diagnostics (`ping`, `nslookup`, `hostname`).
+- **Unit 2**: Input Validation and Sanitization (Regex Whitelisting).
+- **Unit 3**: Web Application Vulnerability Assessment (OWASP A03: Injection).
+- **Unit 4**: Secure Process Execution & Defensive Programming (`shell=False`, argument arrays).
+- **Unit 5**: Vulnerability Assessment Reporting & Remediation.
 
 ---
 
 ## CHAPTER 4
 
-### 4.1 Screenshot Guidelines and Verification
-The screenshots captured and cataloged in the `screenshots/` directory serve as empirical verification of the system's operational and defensive capabilities:
-- **Figure 1 (`01_application_interface.png`)**: Captures the main application dashboard, demonstrating clean UI design, sidebar navigation, diagnostic test selection, and reference documentation.
-- **Figure 2 (`02_normal_diagnostic_test.png`)**: Demonstrates functional execution of a legitimate diagnostic ping command against `localhost`, confirming real command execution and terminal output parsing.
-- **Figure 3 (`03_input_validation.png`)**: Documents the core backend defensive source code containing regex validation, allow-listing logic, and timeout controls.
-- **Figure 4 (`04_command_injection_detection.png`)**: Confirms the security engine's capability to detect command injection patterns (`| whoami`), safely block execution, and present the educational anti-pattern without endangering the system.
-- **Figure 5 (`05_secure_implementation.png`)**: Demonstrates defensive execution in action, verifying automatic detection and prevention of chained commands (`&& whoami`).
-- **Figure 6 (`06_assessment_findings.png`)**: Illustrates the final assessment report, presenting status metrics, automated remediation recommendations, and side-by-side code comparisons.
-
-All screenshots were taken directly from the running web application on Windows 11 with no simulated mockups or fake graphics.
-
----
+### 4.1 Screenshot Guidelines
+- **Figure 1**: Application Interface (`01_application_interface.png`)
+- **Figure 2**: Normal Diagnostic Test (`02_normal_diagnostic_test.png`)
+- **Figure 3**: Input Validation Source Code (`03_input_validation.png`)
+- **Figure 4**: Command Chaining Mitigation (`05_secure_implementation.png`)
+- **Figure 5**: Command Injection Detection (`04_command_injection_detection.png`)
+- **Figure 6**: Assessment Findings & Remediation (`06_assessment_findings.png`)
 
 ### 4.2 GitHub Repository Structure
-To ensure full academic transparency, reproducibility, and professional engineering standards, the project is structured in a dedicated Git repository:
-
 ```
 Command-Injection-VA/
 │
-├── app.py                 # Core Flask application, validation logic, and subprocess execution
-├── requirements.txt       # Python dependencies (Flask 3.0.3)
-├── .gitignore             # Virtual environment and cache ignore rules
-├── README.md              # Comprehensive project documentation and execution guide
+├── app.py                 # Core application and secure execution engine
+├── requirements.txt       # Flask dependencies
+├── .gitignore             # Environment and cache rules
+├── README.md              # Project documentation and guide
 │
 ├── templates/
-│   └── index.html         # Responsive, two-column web interface with code comparison tabs
+│   └── index.html         # Front-end dashboard and code comparison tabs
 │
-├── screenshots/           # Evidence screenshots captured during assessment
+├── screenshots/           # Evidence screenshots (Figures 1 to 6)
 │   ├── 01_application_interface.png
 │   ├── 02_normal_diagnostic_test.png
 │   ├── 03_input_validation.png
@@ -402,31 +413,36 @@ Command-Injection-VA/
 │   ├── 05_secure_implementation.png
 │   └── 06_assessment_findings.png
 │
-└── docs/                  # Formal academic report and documentation
-    └── project_report.md
-```
-│
-└── docs/                  # Formal academic report and documentation
+└── docs/                  # Formal documentation and academic report
     └── project_report.md
 ```
 
-#### Table 4.1: Repository Component Descriptions
-| File / Directory | Description |
-| :--- | :--- |
-| `app.py` | Python application script containing routing, validation regexes, diagnostic command maps, execution logic, and assessment reporting. |
-| `templates/index.html` | Front-end HTML/CSS/JS template featuring a responsive layout, terminal emulator styling, and interactive comparison tabs. |
-| `screenshots/` | Storage repository for numbered figures demonstrating each test case outcome. |
-| `docs/project_report.md` | Complete academic project report in markdown format ready for documentation or PDF rendering. |
-| `README.md` | Public GitHub documentation providing installation instructions, architecture diagrams, and security principles. |
+### 4.3 Ethical Disclaimer and Conclusion
+This project was conducted strictly within an authorized local environment for educational purposes. It successfully demonstrates the risks of command injection and proves that strict input allow-listing combined with `subprocess.run(shell=False)` provides robust defense against injection attacks.
 
 ---
 
-### 4.3 Ethical Disclaimer and Conclusion
-This project, **Command Injection Vulnerability Assessment**, was developed strictly for educational and academic purposes as part of the Ethical Hacking curriculum. All diagnostic executions were conducted solely within an authorized localhost environment on the author's personal workstation. The software explicitly disallows arbitrary command submission and never executes malicious payloads.
+## ANNEXURE
 
-In conclusion, the project successfully achieves all stated objectives:
-1. It demystifies the mechanics of command injection by exposing the behavior of shell metacharacters in a safe, controlled manner.
-2. It proves that simple string concatenation is fundamentally insecure for operating system invocations.
-3. It demonstrates the definitive industry remediation: **strict input allow-listing combined with parameterized argument passing using `subprocess.run(..., shell=False, timeout=...)`**.
+### POs & PSOs Mapping
+| PO1 | PO2 | PO3 | PO4 | PO5 | PO6 | PO7 | PO8 | PO9 | PO10 | PO11 | PSO1 | PSO2 | PSO3 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
-By integrating vulnerability assessment, live diagnostics, interactive code comparisons, and actionable remediation checklists into a single lightweight platform, this project provides a comprehensive, professional, and accessible educational tool for understanding and eliminating command injection vulnerabilities in modern software systems.
+- **Project Title**: Command Injection Vulnerability Assessment
+- **Program**: B.E CSE (CYBERSECURITY)
+- **Batch**: 2024 – 2028
+- **Student Name**: Kavin Krishna
+- **Supervisor**: Dr. A. Sarfaraz Ahmed, Ph.D.
+- **SDG Goals Mapped**: Industry, Innovation and Infrastructure (SDG 9)
+- **TRL Level**: 3 (Analytical and Experimental Critical Function and /or characteristic proof of concept)
+
+### VENUE AND EXPENDITURE STATEMENT FOR THE PROJECT WORK
+- **Laboratory details**: Cybersecurity Lab, CSE(Cybersecurity)
+- **Software Requirements**: Windows 11, Python 3.10+, Flask 3.0.3, subprocess, re, PowerShell, Web Browser
+- **Hardware Requirements**: Personal computer with sufficient RAM and storage.
+
+```
+Signature of the student                               Signature of the Supervisor
+Kavin Krishna                                          (Dr. A. Sarfaraz Ahmed, Ph.D.)
+```
