@@ -255,6 +255,14 @@ Input validation is enforced using a dual-stage verification system:
    ```
 If an input fails validation or contains unapproved targets, execution is rejected before process instantiation, returning a `BLOCKED (invalid host)` status.
 
+```
+================================================================================
+FIGURE 3: INPUT VALIDATION
+================================================================================
+```
+![Figure 3: Input Validation](screenshots/03_input_validation.png)  
+*Figure 3: Input Validation implementation in Python showing regex patterns (INJECTION_PATTERN, SAFE_HOST_PATTERN), execution timeout limits, and the is_safe_host() validation function.*
+
 ---
 
 #### Task 5 — Suspicious Input & Injection Detection
@@ -293,6 +301,14 @@ def run_safe_command(cmd):
     output = (completed.stdout or "") + (completed.stderr or "")
     return completed.returncode, output.strip() or "(no output)"
 ```
+
+```
+================================================================================
+FIGURE 5: SECURE IMPLEMENTATION
+================================================================================
+```
+![Figure 5: Secure Implementation](screenshots/05_secure_implementation.png)  
+*Figure 5: Secure Implementation running in browser, demonstrating injection blocking for 127.0.0.1 && whoami, transparent vulnerability simulation alert, and secure terminal feedback.*
 
 ---
 
@@ -355,7 +371,9 @@ This project aligns directly with standard university curriculum topics in Ethic
 The screenshots captured and cataloged in the `screenshots/` directory serve as empirical verification of the system's operational and defensive capabilities:
 - **Figure 1 (`01_application_interface.png`)**: Captures the main application dashboard, demonstrating clean UI design, sidebar navigation, diagnostic test selection, and reference documentation.
 - **Figure 2 (`02_normal_diagnostic_test.png`)**: Demonstrates functional execution of a legitimate diagnostic ping command against `localhost`, confirming real command execution and terminal output parsing.
+- **Figure 3 (`03_input_validation.png`)**: Documents the core backend defensive source code containing regex validation, allow-listing logic, and timeout controls.
 - **Figure 4 (`04_command_injection_detection.png`)**: Confirms the security engine's capability to detect command injection patterns (`| whoami`), safely block execution, and present the educational anti-pattern without endangering the system.
+- **Figure 5 (`05_secure_implementation.png`)**: Demonstrates defensive execution in action, verifying automatic detection and prevention of chained commands (`&& whoami`).
 - **Figure 6 (`06_assessment_findings.png`)**: Illustrates the final assessment report, presenting status metrics, automated remediation recommendations, and side-by-side code comparisons.
 
 All screenshots were taken directly from the running web application on Windows 11 with no simulated mockups or fake graphics.
@@ -379,8 +397,14 @@ Command-Injection-VA/
 ├── screenshots/           # Evidence screenshots captured during assessment
 │   ├── 01_application_interface.png
 │   ├── 02_normal_diagnostic_test.png
+│   ├── 03_input_validation.png
 │   ├── 04_command_injection_detection.png
+│   ├── 05_secure_implementation.png
 │   └── 06_assessment_findings.png
+│
+└── docs/                  # Formal academic report and documentation
+    └── project_report.md
+```
 │
 └── docs/                  # Formal academic report and documentation
     └── project_report.md

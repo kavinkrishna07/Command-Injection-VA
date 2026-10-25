@@ -70,7 +70,9 @@ Command-Injection-VA/
 ├── screenshots/           # Evidence screenshots captured during assessment
 │   ├── 01_application_interface.png
 │   ├── 02_normal_diagnostic_test.png
+│   ├── 03_input_validation.png
 │   ├── 04_command_injection_detection.png
+│   ├── 05_secure_implementation.png
 │   └── 06_assessment_findings.png
 │
 └── docs/                  # Formal academic report and documentation
