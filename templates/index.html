@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Command Injection Lab</title>
+  <title>Command Injection Lab (Ubuntu)</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,27 +16,33 @@
 
     /* ── Top bar ── */
     .topbar {
-      background: #0f3460;
+      background: #77216f; /* Ubuntu signature aubergine */
       color: #fff;
       padding: 18px 40px;
       display: flex;
       align-items: baseline;
       gap: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .topbar h1 {
       font-size: 1.25rem;
       font-weight: 700;
       letter-spacing: -.2px;
     }
-    .topbar span {
-      font-size: 0.82rem;
-      color: #93b4d8;
+    .topbar .badge-os {
+      background: #e95420; /* Ubuntu orange */
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
     }
 
     /* ── Main layout ── */
     .page {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 340px 1fr;
       min-height: calc(100vh - 61px);
     }
 
@@ -44,7 +50,7 @@
     .sidebar {
       background: #fff;
       border-right: 1px solid #e2e8f0;
-      padding: 28px 24px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       gap: 0;
@@ -56,9 +62,115 @@
       text-transform: uppercase;
       letter-spacing: .8px;
       color: #94a3b8;
-      margin: 20px 0 8px;
+      margin: 16px 0 6px;
     }
     .sidebar-label:first-child { margin-top: 0; }
+
+    /* Mode toggle card */
+    .mode-toggle-card {
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mode-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .mode-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .mode-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: inline-block;
+      width: fit-content;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .badge-safe {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .badge-unsafe {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 25px;
+      flex-shrink: 0;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #22c55e;
+      transition: .25s ease-in-out;
+      border-radius: 25px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 19px;
+      width: 19px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .25s ease-in-out;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    input:checked + .slider {
+      background-color: #ef4444;
+    }
+    input:checked + .slider:before {
+      transform: translateX(23px);
+    }
+
+    /* Custom input field */
+    .sidebar-input {
+      width: 100%;
+      font-size: 0.88rem;
+      padding: 9px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 7px;
+      background: #f8fafc;
+      color: #1e293b;
+      margin-bottom: 6px;
+      font-family: inherit;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .sidebar-input:focus {
+      outline: none;
+      border-color: #77216f;
+      box-shadow: 0 0 0 3px rgba(119,33,111,.12);
+      background: #fff;
+    }
+    .sidebar-hint {
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 0;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
 
     .sidebar select {
       width: 100%;
@@ -73,17 +185,17 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 10px center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .sidebar select:focus {
       outline: none;
-      border-color: #0f3460;
-      box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+      border-color: #77216f;
+      box-shadow: 0 0 0 3px rgba(119,33,111,.12);
     }
 
     .run-btn {
       width: 100%;
-      background: #0f3460;
+      background: #77216f;
       color: #fff;
       border: none;
       border-radius: 7px;
@@ -94,7 +206,7 @@
       margin-top: 4px;
       transition: background .15s;
     }
-    .run-btn:hover  { background: #1a4b8a; }
+    .run-btn:hover  { background: #5e1957; }
     .run-btn:active { opacity: .9; }
 
     /* sidebar info boxes */
@@ -134,7 +246,7 @@
       overflow-y: auto;
     }
 
-    /* placeholder when no test has been run yet */
+    /* placeholder */
     .placeholder {
       display: flex;
       flex-direction: column;
@@ -179,22 +291,17 @@
 
     .theme-pass    { background: #f0fdf4; border-color: #22c55e; color: #14532d; }
     .theme-blocked { background: #fff7ed; border-color: #f97316; color: #7c2d12; }
+    .theme-unsafe  { background: #fef2f2; border-color: #dc2626; color: #991b1b; }
     .theme-timeout { background: #fefce8; border-color: #eab308; color: #713f12; }
     .theme-error   { background: #fef2f2; border-color: #ef4444; color: #7f1d1d; }
 
-    /* status dot inside bar */
-    .status-dot {
-      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
-    }
-
-    /* ── Cards ── */
+    /* cards */
     .card {
       background: #fff;
+      border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 20px 22px;
-      margin-bottom: 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.06);
-      border: 1px solid #e8ecf1;
+      padding: 18px 20px;
+      margin-bottom: 14px;
     }
 
     /* kv rows */
@@ -212,23 +319,24 @@
       padding: 1px 6px;
       font-size: 0.82rem;
       font-family: 'Consolas', 'Courier New', monospace;
-      color: #0f3460;
+      color: #77216f;
     }
     hr.div { border: none; border-top: 1px solid #f1f5f9; margin: 10px 0; }
 
-    /* terminal */
+    /* Linux Ubuntu terminal styling */
     .terminal {
-      background: #0d1117;
-      color: #c9d1d9;
+      background: #300a24; /* Ubuntu terminal purple */
+      color: #ffffff;
       font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       line-height: 1.65;
       padding: 14px 16px;
       border-radius: 8px;
       white-space: pre-wrap;
       overflow-x: auto;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
     }
-    .terminal .prompt { color: #58a6ff; user-select: none; }
+    .terminal .prompt { color: #87ff5f; font-weight: bold; user-select: none; }
 
     /* callouts */
     .callout {
@@ -260,11 +368,11 @@
     }
     .callout-info .callout-title { color: #1d4ed8; }
 
-    /* ── Two-column grid for findings ── */
+    /* Two-column grid for findings */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
 
-    /* stat rows inside findings */
+    /* stat rows */
     .stat-item {
       display: flex; justify-content: space-between; align-items: center;
       font-size: 0.83rem; padding: 6px 0; border-bottom: 1px solid #f1f5f9;
@@ -276,6 +384,7 @@
     }
     .pill-green  { background: #dcfce7; color: #14532d; }
     .pill-orange { background: #ffedd5; color: #7c2d12; }
+    .pill-red    { background: #fee2e2; color: #991b1b; }
     .pill-grey   { background: #f1f5f9; color: #475569; }
 
     /* remediation list */
@@ -291,7 +400,7 @@
     .remed-list.warn li { color: #7c2d12; border-bottom-color: #fff7ed; }
     .remed-list.warn li::before { color: #f97316; }
 
-    /* ── Code comparison tabs ── */
+    /* Code comparison tabs */
     .tab-bar {
       display: flex;
       border-bottom: 2px solid #e2e8f0;
@@ -304,8 +413,8 @@
       color: #64748b; border-bottom: 2px solid transparent; margin-bottom: -2px;
       transition: color .15s, border-color .15s;
     }
-    .tab-btn:hover { color: #0f3460; }
-    .tab-btn.active { color: #0f3460; border-bottom-color: #0f3460; }
+    .tab-btn:hover { color: #77216f; }
+    .tab-btn.active { color: #77216f; border-bottom-color: #77216f; }
     .tab-pane { display: none; }
     .tab-pane.active { display: block; }
 
@@ -326,7 +435,7 @@
     pre.code-unsafe { background: #1a0000; color: #fca5a5; }
     pre.code-safe   { background: #001a0a; color: #86efac; }
 
-    /* ── Reference cards at bottom ── */
+    /* Reference cards */
     .ref-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     @media (max-width: 700px) { .ref-grid { grid-template-columns: 1fr; } }
 
@@ -340,7 +449,7 @@
     .ref-risk   { background: #fff7ed; border-color: #fed7aa; color: #7c2d12; }
     .ref-fix    { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
 
-    /* ── Footer ── */
+    /* Footer */
     .footer {
       text-align: center;
       font-size: 0.75rem;
@@ -349,6 +458,96 @@
       border-top: 1px solid #e2e8f0;
       margin-top: 8px;
     }
+
+    /* ── Confirmation Modal ── */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.68);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 490px;
+      width: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.94); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-header {
+      background: #fef2f2;
+      border-bottom: 1px solid #fee2e2;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .modal-icon { font-size: 1.4rem; }
+    .modal-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #991b1b;
+    }
+    .modal-body {
+      padding: 18px 20px;
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.55;
+    }
+    .modal-cmd-preview {
+      background: #300a24;
+      color: #87ff5f;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.83rem;
+      word-break: break-all;
+      border: 1px solid #4a153b;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn-cancel {
+      background: #e2e8f0;
+      color: #334155;
+      border: none;
+      border-radius: 6px;
+      padding: 9px 16px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-cancel:hover { background: #cbd5e1; }
+    .btn-confirm {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 9px 18px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(220,38,38,0.3);
+      transition: background .15s;
+    }
+    .btn-confirm:hover { background: #b91c1c; }
   </style>
 </head>
 <body>
@@ -356,51 +555,77 @@
 <!-- Top bar -->
 <div class="topbar">
   <h1>Command Injection Vulnerability Assessment</h1>
-  <span>Local security lab &mdash; Windows</span>
+  <span class="badge-os">Ubuntu Linux Environment</span>
 </div>
 
 <!-- Two-column page layout -->
 <div class="page">
 
-  <!-- ── Sidebar: test picker ── -->
+  <!-- ── Sidebar: Controls ── -->
   <aside class="sidebar">
-    <form method="post">
+    <form method="post" id="labForm" onsubmit="return handleFormSubmit(event)">
 
-      <div class="sidebar-label">Select a test</div>
+      <!-- Security Mode Toggle -->
+      <div class="sidebar-label">Security Mode</div>
+      <div class="mode-toggle-card">
+        <div class="mode-info">
+          <span class="mode-title">Execution Mode</span>
+          <span id="modeBadge" class="mode-badge {% if unsafe_mode %}badge-unsafe{% else %}badge-safe{% endif %}">
+            {% if unsafe_mode %}Unsafe Mode{% else %}Safe Mode{% endif %}
+          </span>
+        </div>
+        <label class="switch" title="Toggle between Safe Mode (Protected) and Unsafe Mode (Direct Shell Execution)">
+          <input type="checkbox" name="unsafe_mode" id="unsafe_mode" value="1" {% if unsafe_mode %}checked{% endif %} onchange="updateMode(this)">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="sidebar-hint" id="modeHint">
+        {% if unsafe_mode %}
+          ⚠️ <strong>Unsafe Mode:</strong> Input is concatenated directly into Ubuntu shell (<code>/bin/bash</code>). Secondary commands execute directly.
+        {% else %}
+          🛡️ <strong>Safe Mode:</strong> Input validation with regex allow-list &amp; <code>shell=False</code>. Injections are blocked.
+        {% endif %}
+      </div>
+
+      <!-- Custom text box: name / target -->
+      <div class="sidebar-label">Custom Input (Name / Target)</div>
+      <input
+        type="text"
+        name="custom_input"
+        id="custom_input"
+        class="sidebar-input"
+        placeholder="e.g. 127.0.0.1; id or name & whoami"
+        value="{{ custom_input or '' }}"
+      >
+      <div class="sidebar-hint">
+        Type an input above to test, or leave blank to use the test list below.
+      </div>
+
+      <!-- Predefined test case dropdown -->
+      <div class="sidebar-label">Or Select Predefined Test</div>
       <select name="case_id" id="case_id">
-        <optgroup label="Safe diagnostic commands">
+        <optgroup label="Safe Ubuntu diagnostics">
           {% for case in cases %}{% if not case.id.startswith('inject') %}
-            <option value="{{ case.id }}"{% if case.id == selected %} selected{% endif %}>{{ case.label }}</option>
+            <option value="{{ case.id }}"{% if case.id == selected and not custom_input %} selected{% endif %}>{{ case.label }}</option>
           {% endif %}{% endfor %}
         </optgroup>
-        <optgroup label="Injection-pattern demos">
+        <optgroup label="Linux injection patterns">
           {% for case in cases %}{% if case.id.startswith('inject') %}
-            <option value="{{ case.id }}"{% if case.id == selected %} selected{% endif %}>{{ case.label }}</option>
+            <option value="{{ case.id }}"{% if case.id == selected and not custom_input %} selected{% endif %}>{{ case.label }}</option>
           {% endif %}{% endfor %}
         </optgroup>
       </select>
-      <button class="run-btn" type="submit">Run Test</button>
+
+      <button class="run-btn" type="submit" id="submitBtn">Run Assessment</button>
 
     </form>
 
     <div class="sidebar-label">Status key</div>
     <div class="info-box" style="padding: 10px 12px;">
-      <div class="legend-row"><span class="dot dot-green"></span> PASS &mdash; command ran successfully</div>
+      <div class="legend-row"><span class="dot dot-green"></span> PASS &mdash; safe diagnostic ran successfully</div>
+      <div class="legend-row"><span class="dot dot-red"></span> VULNERABLE &mdash; injected command executed</div>
       <div class="legend-row"><span class="dot dot-orange"></span> BLOCKED &mdash; injection or bad input caught</div>
-      <div class="legend-row"><span class="dot dot-red"></span> ERROR &mdash; tool not found or failed</div>
       <div class="legend-row"><span class="dot dot-yellow"></span> TIMEOUT &mdash; command took too long</div>
-    </div>
-
-    <div class="sidebar-label">About this lab</div>
-    <div class="info-box">
-      <strong>What it does</strong>
-      Pick a test above and run it. Safe tests execute real diagnostic commands on your machine.
-      Injection demos show you what a bad actor might try — without actually running the harmful part.
-    </div>
-    <div class="info-box" style="margin-top:8px;">
-      <strong>What you learn</strong>
-      Why concatenating user input into a shell command is dangerous, and how passing arguments
-      separately closes that door entirely.
     </div>
 
   </aside>
@@ -412,7 +637,7 @@
     <!-- Placeholder before any test is run -->
     <div class="placeholder">
       <div class="ph-icon">&#9654;</div>
-      <p>Select a test case from the left panel and click <strong>Run Test</strong> to see results here.</p>
+      <p>Configure the mode, enter an input or choose a test, and click <strong>Run Assessment</strong> to see results here.</p>
     </div>
     {% endif %}
 
@@ -422,7 +647,7 @@
     <div class="status-bar {{ theme }}" style="margin-bottom:20px;">
       <div>
         <div class="sb-label">{{ result.status }}</div>
-        <div class="sb-sub">Test completed &mdash; see details below</div>
+        <div class="sb-sub">Assessment completed &mdash; see details below</div>
       </div>
     </div>
 
@@ -436,23 +661,35 @@
       <hr class="div">
 
       {% if result.unsafe_example %}
-      <div class="callout callout-warn">
-        <div class="callout-title">What a vulnerable app would have run &mdash; not executed here</div>
+      <div class="callout callout-warn" style="{% if result.is_vulnerable %}background:#fef2f2;border-color:#fca5a5;color:#991b1b;{% endif %}">
+        <div class="callout-title" style="{% if result.is_vulnerable %}color:#b91c1c;{% endif %}">
+          {% if result.is_vulnerable %}
+            ⚠️ Real Vulnerability Triggered (Unsafe Mode) &mdash; Direct Shell Execution on Ubuntu
+          {% else %}
+            What a vulnerable app would have run &mdash; blocked here (Safe Mode)
+          {% endif %}
+        </div>
         <code>{{ result.unsafe_example }}</code>
         <p style="margin-top:8px;font-size:0.83rem;">
-          An app that builds its command with string concatenation —
-          <code>os.system("ping " + user_input)</code> — would pass this entire string to the
-          Windows shell. Characters like <code>;</code>, <code>&amp;&amp;</code>, and <code>|</code>
-          tell the shell to start a second command. That second command runs with the same
-          permissions as the web application. This lab catches the pattern and stops before
-          anything is executed.
+          {% if result.is_vulnerable %}
+            Because <strong>Unsafe Mode</strong> is active, the application used string concatenation
+            and passed the raw user input directly to the system shell (<code>/bin/bash</code> via <code>shell=True</code>).
+            Shell metacharacters (<code>;</code>, <code>&amp;&amp;</code>, <code>|</code>) allowed secondary operating
+            system commands to execute directly on the host with full privileges of this web process.
+          {% else %}
+            An app that builds its command with string concatenation —
+            <code>os.system("ping -c 1 " + user_input)</code> — would pass this entire string to the
+            Ubuntu shell. Characters like <code>;</code>, <code>&amp;&amp;</code>, and <code>|</code>
+            tell bash to execute a second command. In <strong>Safe Mode</strong>, this lab catches
+            the pattern and blocks execution before anything is sent to the operating system.
+          {% endif %}
         </p>
       </div>
       {% endif %}
 
       <div style="margin-top:14px;">
-        <div class="kv-label" style="margin-bottom:6px;">Output</div>
-        <div class="terminal"><span class="prompt">C:\&gt; </span>{{ result.output }}</div>
+        <div class="kv-label" style="margin-bottom:6px;">Output (Ubuntu Terminal)</div>
+        <div class="terminal"><span class="prompt">user@ubuntu:~$ </span>{{ result.output }}</div>
       </div>
 
       <div class="callout callout-info" style="margin-top:14px;">
@@ -486,25 +723,27 @@
         <p class="section-title" style="margin-bottom:12px;">Test Summary</p>
         <div class="stat-item">
           <span>Result status</span>
-          <span class="pill {% if 'PASS' in result.status or 'RAN' in result.status %}pill-green{% elif 'BLOCKED' in result.status %}pill-orange{% else %}pill-grey{% endif %}">
+          <span class="pill {% if 'VULNERABLE' in result.status %}pill-red{% elif 'PASS' in result.status or 'RAN' in result.status %}pill-green{% elif 'BLOCKED' in result.status %}pill-orange{% else %}pill-grey{% endif %}">
             {{ result.status }}
           </span>
         </div>
         <div class="stat-item">
           <span>Command executed</span>
-          <span class="pill {% if result.command != 'not executed' %}pill-green{% else %}pill-orange{% endif %}">
-            {% if result.command != 'not executed' %}Yes{% else %}No{% endif %}
+          <span class="pill {% if result.command_executed == 'Yes' %}pill-green{% else %}pill-orange{% endif %}">
+            {{ result.command_executed or ('Yes' if result.command != 'not executed' else 'No') }}
           </span>
         </div>
         <div class="stat-item">
           <span>Injection detected</span>
-          <span class="pill {% if result.unsafe_example %}pill-orange{% else %}pill-green{% endif %}">
-            {% if result.unsafe_example %}Yes{% else %}No{% endif %}
+          <span class="pill {% if result.injection_detected and 'Yes' in result.injection_detected %}pill-orange{% else %}pill-green{% endif %}">
+            {{ result.injection_detected or ('Yes' if result.unsafe_example else 'No') }}
           </span>
         </div>
         <div class="stat-item">
           <span>Shell invoked</span>
-          <span class="pill pill-green">No</span>
+          <span class="pill {% if 'Yes' in (result.shell_invoked or '') %}pill-red{% else %}pill-green{% endif %}">
+            {{ result.shell_invoked or 'No' }}
+          </span>
         </div>
         <div class="stat-item">
           <span>Timeout enforced</span>
@@ -514,7 +753,7 @@
 
       <div class="card">
         <p class="section-title" style="margin-bottom:12px;">Remediation Recommendations</p>
-        <ul class="remed-list {% if result.unsafe_example %}warn{% endif %}">
+        <ul class="remed-list {% if result.unsafe_example or result.is_vulnerable %}warn{% endif %}">
           {% for item in result.remediation %}
           <li>{{ item }}</li>
           {% endfor %}
@@ -525,39 +764,108 @@
 
     {% endif %}
 
-    <!-- Reference guide (always visible) -->
-    <p class="section-title" style="margin-top:{% if result %}8{% else %}0{% endif %}px;">Reference</p>
+    <!-- Reference guide -->
+    <p class="section-title" style="margin-top:{% if result %}8px{% else %}0{% endif %};">Reference</p>
     <div class="ref-grid">
       <div class="ref-card ref-safe">
-        <strong>Safe commands</strong>
-        The input is validated against a known-good list before anything runs.
-        Only approved tools are called, and the result is exactly what you see in the output box.
+        <strong>Safe Mode</strong>
+        Input is checked against an allow-list regex. Subprocess is invoked with <code>shell=False</code> passing arguments as a list.
       </div>
       <div class="ref-card ref-risk">
-        <strong>Injection demos</strong>
-        Inputs containing <code>;</code>, <code>&amp;&amp;</code>, or <code>|</code>
-        are caught by the validator. The risky part is shown for educational purposes — nothing is executed.
+        <strong>Unsafe Mode</strong>
+        Input is concatenated into raw bash string (<code>shell=True</code>). Shell operators (<code>;</code>, <code>&amp;&amp;</code>, <code>|</code>) execute secondary commands directly.
       </div>
       <div class="ref-card ref-fix">
-        <strong>How to prevent it</strong>
-        Validate input first. Build the command as a list of arguments, not a single string.
-        Call the process directly — never through a shell — and always enforce a timeout.
+        <strong>How to Prevent It</strong>
+        Never use <code>shell=True</code> or <code>os.system()</code> with user input. Enforce allow-list validation and pass arguments as lists.
       </div>
     </div>
 
     <div class="footer">
-      Running locally &mdash; for learning purposes only &mdash; no data leaves your machine
+      Ubuntu Linux Environment &mdash; For educational purposes only &mdash; Running locally
     </div>
 
   </main>
 </div>
 
+<!-- ── Confirmation Modal Dialog ── -->
+<div id="confirmModal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon">⚠️</span>
+      <span class="modal-title">Confirm Direct OS Execution</span>
+    </div>
+    <div class="modal-body">
+      <p><strong>Warning:</strong> You are about to run in <strong>Unsafe Mode</strong>.</p>
+      <p style="margin-top:8px;">
+        In this mode, input is passed directly to your system's shell (<code>/bin/bash</code>)
+        without sanitization &mdash; behaving exactly like a real-world vulnerable application.
+      </p>
+      <div class="modal-cmd-preview">
+        <span style="font-size:0.7rem;color:#d1d5db;font-weight:700;display:block;margin-bottom:4px;text-transform:uppercase;">Command to be sent to OS:</span>
+        <span id="modalCmdPreview">ping -c 1 ...</span>
+      </div>
+      <p style="margin-top:12px;font-size:0.82rem;color:#64748b;">
+        Any injected commands will execute with the full privileges of this system process. Are you sure you want to proceed?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-cancel" onclick="closeConfirmModal()">Cancel (Stay Safe)</button>
+      <button type="button" class="btn-confirm" onclick="confirmAndSubmit()">Yes, Execute on System OS</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  let isConfirmed = false;
+
   function switchTab(evt, tabId) {
     document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
     document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
     evt.currentTarget.classList.add('active');
     document.getElementById(tabId).classList.add('active');
+  }
+
+  function updateMode(chk) {
+    const badge = document.getElementById('modeBadge');
+    const hint = document.getElementById('modeHint');
+    if (chk.checked) {
+      badge.textContent = 'Unsafe Mode';
+      badge.className = 'mode-badge badge-unsafe';
+      hint.innerHTML = '⚠️ <strong>Unsafe Mode:</strong> Input is concatenated directly into Ubuntu shell (<code>/bin/bash</code>). Secondary commands execute directly.';
+    } else {
+      badge.textContent = 'Safe Mode';
+      badge.className = 'mode-badge badge-safe';
+      hint.innerHTML = '🛡️ <strong>Safe Mode:</strong> Input validation with regex allow-list &amp; <code>shell=False</code>. Injections are blocked.';
+    }
+  }
+
+  function handleFormSubmit(e) {
+    const isUnsafe = document.getElementById('unsafe_mode').checked;
+    if (isUnsafe && !isConfirmed) {
+      e.preventDefault();
+      const custom = document.getElementById('custom_input').value.trim();
+      const select = document.getElementById('case_id');
+      let targetText = custom;
+      if (!targetText) {
+        const opt = select.options[select.selectedIndex];
+        targetText = opt ? opt.text : '127.0.0.1';
+      }
+      document.getElementById('modalCmdPreview').textContent = 'ping -c 1 ' + targetText;
+      document.getElementById('confirmModal').style.display = 'flex';
+      return false;
+    }
+    return true;
+  }
+
+  function closeConfirmModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+  }
+
+  function confirmAndSubmit() {
+    isConfirmed = true;
+    closeConfirmModal();
+    document.getElementById('labForm').submit();
   }
 </script>
 </body>

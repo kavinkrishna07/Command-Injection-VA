@@ -1,82 +1,46 @@
 # Command-Injection-VA
-# Command Injection Vulnerability Assessment
+# Command Injection Vulnerability Assessment (Ubuntu / Linux)
 
-A lightweight, beginner-friendly cybersecurity laboratory and vulnerability assessment tool built with Python Flask. This project demonstrates how command injection vulnerabilities arise in web applications, how suspicious input patterns are detected safely, and how to implement robust defenses using input validation, parameterized command execution with `subprocess.run(shell=False)`, and strict execution timeouts on Windows.
+A lightweight cybersecurity laboratory and vulnerability assessment interface built with Python Flask for Ubuntu / Linux environments. This project demonstrates how command injection vulnerabilities arise in web applications, how raw inputs interact with the system shell (`/bin/bash`), and how to implement robust defenses using input validation, parameterized command execution with `subprocess.run(shell=False)`, and strict execution timeouts.
 
 ---
 
 ## Overview
 
-Command injection occurs when an application passes unsanitized user-supplied data to a system shell (`cmd.exe`, PowerShell, or Bash). In a vulnerable application, attackers can append shell metacharacters (such as `;`, `&&`, or `|`) to execute unauthorized secondary operating system commands.
+Command injection occurs when an application concatenates untrusted user-supplied data directly into a system shell command (`/bin/sh` or `/bin/bash`). In a vulnerable application, attackers can append shell metacharacters (such as `;`, `&&`, or `|`) to execute unauthorized secondary operating system commands (e.g. `; id`, `; uname -a`, `; whoami`).
 
-This lab provides a safe, controlled environment to study this vulnerability:
-- **Harmless Diagnostics**: Executes only approved diagnostic operations (`ping`, `hostname`, `nslookup`).
-- **Input Validation**: Enforces strict allow-lists and regex patterns on hostnames and IP addresses.
-- **Simulated Detection**: Detects command injection patterns and displays what a vulnerable application would have constructed—**without executing injected commands**.
-- **Secure Implementation**: Demonstrates secure execution using `subprocess.run(cmd, shell=False, timeout=6)`.
-- **Educational Code Comparison**: Provides side-by-side comparisons of vulnerable patterns vs. secure implementations.
-- **Actionable Remediation**: Generates a test summary and structured remediation checklist based on assessment findings.
+This lab provides two operational modes:
+- **Safe Mode (Defensive Pattern)**:
+  - Input Validation: Enforces strict allow-lists and regex patterns on hostnames and IP addresses.
+  - Interception: Detects shell chaining operators (`;&|\`$()<>^\r\n`) and halts execution before any command reaches the OS.
+  - Secure Execution: Demonstrates parameterized execution using `subprocess.run(['ping', '-c', '1', host], shell=False, timeout=6)`.
+- **Unsafe Mode (Real-World Vulnerable Pattern)**:
+  - Demonstrates direct shell concatenation: `os.system("ping -c 1 " + user_input)` via `/bin/bash`.
+  - Prompts with an interactive **"Are you sure?" confirmation dialog** before triggering raw system execution.
+  - Allows observation of real command injection behavior directly in the Ubuntu terminal console.
 
 ---
 
 ## Architecture & Security Principles
 
 ```
-  User Browser (127.0.0.1:5001)
+  User Browser (http://127.0.0.1:5001)
                │
                ▼
-   [ Flask Web Interface ] ────> Predefined Diagnostic Selection (No Free Typing)
-               │
-               ▼
-   [ Input Validation Engine ]
-        ├── Pattern Analyzer: Detects shell chaining operators (;&|`$()<>^\r\n)
-        └── Allow-List Validator: Validates against SAFE_HOST_PATTERN
+   [ Flask Web Interface ] ────> Custom Input Box OR Predefined Diagnostics
                │
        ┌───────┴───────┐
        ▼               ▼
-[ Malicious Pattern ]  [ Valid Diagnostic ]
+  [ Safe Mode ]   [ Unsafe Mode ]
        │               │
-  (BLOCKED)            ▼
-  Explains risk,   [ Secure Subprocess Invocation ]
-  Never executes   ├── Argument Array: ['ping', '-n', '1', host]
-                   ├── shell=False (No shell interpretation)
-                   └── timeout=6s (Prevents Denial of Service)
-                       │
-                       ▼
-               [ Windows OS Result ]
-```
-
-### Defense-in-Depth Measures
-1. **No Arbitrary Input Execution**: Free-text command entry is disabled; users select from curated diagnostic test cases.
-2. **Pattern Analysis**: Identifies injection syntax and immediately halts execution with educational feedback.
-3. **Array-Based Argument Passing**: Arguments are passed as individual elements in a list, preventing the OS from interpreting arguments as command separators.
-4. **Localhost Binding**: Runs strictly on `127.0.0.1` to prevent unauthorized network access.
-
----
-
-## Repository Structure
-
-```
-Command-Injection-VA/
-│
-├── app.py                 # Core Flask application, validation logic, and subprocess execution
-├── requirements.txt       # Python dependencies (Flask)
-├── .gitignore             # Git ignore patterns (.venv, __pycache__)
-├── README.md              # Project documentation and setup guide
-│
-├── templates/
-│   └── index.html         # Responsive, two-column web interface with code comparison tabs
-│
-├── screenshots/           # Evidence screenshots captured during assessment
-│   ├── 01_application_interface.png
-│   ├── 02_normal_diagnostic_test.png
-│   ├── 03_input_validation.png
-│   ├── 04_command_injection_detection.png
-│   ├── 05_secure_implementation.png
-│   └── 06_assessment_findings.png
-│
-└── docs/                  # Formal academic report and documentation
-    └── project_report.md
+  Allow-List &    Confirmation
+  Regex Check     Dialog ("Are you sure?")
+       │               │
+  ┌────┴────┐          ▼
+  ▼         ▼     [ /bin/bash (shell=True) ]
+Blocked   Secure       │
+(Trap)    Subprocess   ▼
+          (shell=False) Direct OS Output
 ```
 
 ---
@@ -87,42 +51,45 @@ Command-Injection-VA/
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `ping-loopback` | Ping 127.0.0.1 | `ping` | `127.0.0.1` | Real ping statistics | **PASS** (Safe diagnostic) |
 | `ping-localhost`| Ping localhost | `ping` | `localhost` | Real ping statistics | **PASS** (Safe diagnostic) |
-| `show-hostname` | Show PC hostname | `hostname`| *(none)* | Current machine hostname | **PASS** (Safe diagnostic) |
+| `show-hostname` | Show system info | `uname`| `-a` | Kernel & OS information | **PASS** (Safe diagnostic) |
 | `lookup-example`| Hostname lookup | `nslookup`| `example.com`| DNS resolution output | **PASS** (Safe diagnostic) |
-| `inject-semicolon`| Semicolon chaining | `ping` | `127.0.0.1; whoami` | Blocked by pattern engine | **BLOCKED** (Injection risk) |
-| `inject-and` | AND operator chaining | `ping` | `127.0.0.1 && whoami` | Blocked by pattern engine | **BLOCKED** (Injection risk) |
-| `inject-pipe` | Pipe chaining | `ping` | `127.0.0.1 \| whoami` | Blocked by pattern engine | **BLOCKED** (Injection risk) |
+| `inject-semicolon`| Semicolon chaining | `ping` | `127.0.0.1; id` | User ID & group output | **VULNERABLE** in Unsafe / **BLOCKED** in Safe |
+| `inject-and` | AND operator chaining | `ping` | `127.0.0.1 && uname -a` | System architecture details | **VULNERABLE** in Unsafe / **BLOCKED** in Safe |
+| `inject-pipe` | Pipe chaining | `ping` | `127.0.0.1 \| whoami` | Current username output | **VULNERABLE** in Unsafe / **BLOCKED** in Safe |
 
 ---
 
-## Getting Started (Windows PowerShell)
+## Getting Started (Ubuntu / Linux)
 
 ### Prerequisites
-- Python 3.10+ installed and added to `PATH`.
+- Python 3.10+ installed:
+  ```bash
+  sudo apt update
+  sudo apt install -y python3 python3-venv python3-pip
+  ```
 
 ### Installation & Run
 
 1. **Clone the repository:**
-   ```powershell
+   ```bash
    git clone https://github.com/kavinkrishna07/Command-Injection-VA.git
    cd Command-Injection-VA
    ```
 
 2. **Create and activate a virtual environment:**
-   ```powershell
-   python -m venv .venv
-   .\.venv\Scripts\Activate.ps1
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
    ```
-   *(If execution policies block scripts, run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`)*
 
 3. **Install dependencies:**
-   ```powershell
+   ```bash
    pip install -r requirements.txt
    ```
 
 4. **Start the application:**
-   ```powershell
-   python app.py
+   ```bash
+   python3 app.py
    ```
 
 5. **Open in browser:**
@@ -132,15 +99,15 @@ Command-Injection-VA/
 
 ## Code Comparison: Vulnerable vs. Secure
 
-### Vulnerable Implementation (Anti-Pattern)
+### Vulnerable Implementation (Anti-Pattern on Ubuntu)
 ```python
 import os
-# Flaw: String concatenation passed to a shell allows command chaining
-user_input = request.form['host']          # e.g., '127.0.0.1; whoami'
-os.system('ping -n 1 ' + user_input)       # Executes both ping AND whoami!
+# Flaw: String concatenation passed directly to /bin/bash allows command chaining
+user_input = request.form['host']          # e.g., '127.0.0.1; id'
+os.system('ping -c 1 ' + user_input)       # Executes both ping AND id!
 ```
 
-### Secure Implementation (Defensive Pattern)
+### Secure Implementation (Defensive Pattern on Ubuntu)
 ```python
 import subprocess, re
 # 1. Strict regex allow-list validation
@@ -150,7 +117,7 @@ if not SAFE.match(host):
     abort(400) # Reject invalid or suspicious inputs
 
 # 2. Parameterized argument list with shell=False and execution timeout
-subprocess.run(['ping', '-n', '1', '-w', '3000', host],
+subprocess.run(['ping', '-c', '1', '-W', '3', host],
                shell=False,
                timeout=6)
 ```
@@ -159,4 +126,4 @@ subprocess.run(['ping', '-n', '1', '-w', '3000', host],
 
 ## Ethical Disclaimer
 
-This project is developed strictly for educational and academic purposes as part of cybersecurity coursework. It demonstrates defensive secure coding practices and safe vulnerability assessment methodologies. The simulator enforces strict input controls and does not execute arbitrary or malicious commands. The author does not endorse unauthorized testing against systems without explicit permission.
+This project is developed strictly for educational and academic purposes as part of cybersecurity coursework. It demonstrates defensive secure coding practices and safe vulnerability assessment methodologies.
